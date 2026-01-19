@@ -82,16 +82,23 @@ st.markdown("""
         font-size: 4rem;
         font-weight: 900;
         text-shadow: 
-            2px 2px 8px rgba(0,0,0,0.1); /* Bayangan lebih halus */
+            2px 2px 8px rgba(0,0,0,0.1);
         margin-bottom: 1rem;
         letter-spacing: 3px;
-        background: linear-gradient(45deg, #1b5e20 10%, #388e3c 50%, #4caf50 90%)
+    
+        background: linear-gradient(
+            45deg,
+            #1b5e20 10%,
+            #388e3c 50%,
+            #4caf50 90%
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+    
         line-height: 1.1;
     }
-    
+
     .hero-subtitle {
         font-size: 1.4rem;
         color: #f0f7f5;
