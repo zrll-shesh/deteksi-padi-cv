@@ -40,7 +40,7 @@ st.markdown("""
     }
     
     .main {
-        background: linear-gradient(135deg, #0c2461 0%, #1e3799 20%, #4a69bd 100%);
+        background: #ffffff;
         min-height: 100vh;
         padding: 0;
     }
