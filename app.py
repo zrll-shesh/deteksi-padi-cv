@@ -1268,7 +1268,8 @@ def show_detection_page(model):
                 "Choose an image file",
                 type=['jpg', 'jpeg', 'png'],
                 help="Select a clear image of a rice leaf for accurate analysis",
-                label_visibility="collapsed"
+                label_visibility="collapsed",
+                key="file_uploader_1"  # Tambahkan key unik
             )
             
             if uploaded_file is not None:
@@ -1278,6 +1279,7 @@ def show_detection_page(model):
                     st.image(image, caption='Uploaded Image Preview')
                     st.markdown('</div>', unsafe_allow_html=True)
                     
+                    # Tombol analisis
                     if st.button("Analyze Uploaded Image", key="analyze_upload", use_container_width=True):
                         with st.spinner("AI is analyzing the image..."):
                             results = predict_disease(model, image)
@@ -1286,24 +1288,40 @@ def show_detection_page(model):
                                 # Add to history
                                 if 'history' not in st.session_state:
                                     st.session_state.history = []
-                                st.session_state.history.append({
-                                    **results,
-                                    'source': 'upload',
-                                    'filename': uploaded_file.name if hasattr(uploaded_file, 'name') else 'Uploaded Image',
-                                    'image': image
-                                })
+                                
+                                # Cek apakah analisis ini sudah ada dalam history
+                                is_duplicate = False
+                                for record in st.session_state.history:
+                                    if (record.get('filename') == uploaded_file.name and 
+                                        record.get('timestamp') == results.get('timestamp')):
+                                        is_duplicate = True
+                                        break
+                                
+                                if not is_duplicate:
+                                    st.session_state.history.append({
+                                        **results,
+                                        'source': 'upload',
+                                        'filename': uploaded_file.name if hasattr(uploaded_file, 'name') else 'Uploaded Image',
+                                        'image': image
+                                    })
                                 
                                 st.session_state['results'] = results
                                 st.session_state['analyzed'] = True
                                 st.session_state['image_source'] = 'upload'
-                                st.rerun()
+                                st.session_state['current_image'] = image
+                                # TIDAK PERLU st.rerun() - Streamlit akan otomatis update
+                                st.success("✅ Analysis completed successfully!")
                             else:
                                 st.error("Failed to analyze image. Please try again.")
                 except Exception as e:
                     st.error(f"Error loading image: {str(e)}")
         
         with col2:
-            if 'analyzed' in st.session_state and st.session_state.get('analyzed') and st.session_state.get('image_source') == 'upload':
+            # Tampilkan hasil jika ada
+            if ('analyzed' in st.session_state and 
+                st.session_state.get('analyzed') and 
+                st.session_state.get('image_source') == 'upload'):
+                
                 results = st.session_state.get('results', {})
                 if results:
                     disease = results.get('class', 'Unknown')
@@ -1323,11 +1341,18 @@ def show_detection_page(model):
                     </div>
                     """, unsafe_allow_html=True)
                     
+                    # Tombol reset untuk analisis baru
+                    if st.button("Analyze New Image", key="reset_upload", use_container_width=True):
+                        st.session_state['analyzed'] = False
+                        st.session_state['results'] = {}
+                        st.session_state['image_source'] = None
+                        st.rerun()  # Hanya di sini butuh rerun untuk reset
+                    
                     st.plotly_chart(
                         create_confidence_gauge(confidence),
                         use_container_width=True,
                         config={'displayModeBar': False},
-                        key="detection_gauge"
+                        key="detection_gauge_upload"
                     )
     
     with tab2:
@@ -1356,7 +1381,9 @@ def show_detection_page(model):
                         st.error("Failed to capture image. Please check your camera.")
         
         with col2:
-            if 'captured_image_display' in st.session_state and st.session_state['captured_image_display']:
+            if ('captured_image_display' in st.session_state and 
+                st.session_state['captured_image_display']):
+                
                 try:
                     processed_image = process_camera_image(st.session_state['captured_image_display'])
                     if processed_image:
@@ -1373,17 +1400,29 @@ def show_detection_page(model):
                                         # Add to history
                                         if 'history' not in st.session_state:
                                             st.session_state.history = []
-                                        st.session_state.history.append({
-                                            **results,
-                                            'source': 'camera',
-                                            'filename': 'Camera Capture',
-                                            'image': st.session_state['captured_image']
-                                        })
+                                        
+                                        # Cek duplikat
+                                        is_duplicate = False
+                                        for record in st.session_state.history:
+                                            if (record.get('filename') == 'Camera Capture' and 
+                                                record.get('timestamp') == results.get('timestamp')):
+                                                is_duplicate = True
+                                                break
+                                        
+                                        if not is_duplicate:
+                                            st.session_state.history.append({
+                                                **results,
+                                                'source': 'camera',
+                                                'filename': 'Camera Capture',
+                                                'image': st.session_state['captured_image']
+                                            })
                                         
                                         st.session_state['results'] = results
                                         st.session_state['analyzed'] = True
                                         st.session_state['image_source'] = 'camera'
-                                        st.rerun()
+                                        st.session_state['current_image'] = st.session_state['captured_image']
+                                        # TIDAK PERLU st.rerun()
+                                        st.success("✅ Analysis completed successfully!")
                                     else:
                                         st.error("Failed to analyze captured image. Please try again.")
                 except Exception as e:
@@ -1391,8 +1430,11 @@ def show_detection_page(model):
     
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # Show detailed results
-    if 'analyzed' in st.session_state and st.session_state.get('analyzed'):
+    # Show detailed results (akan muncul di bawah tabs)
+    if ('analyzed' in st.session_state and 
+        st.session_state.get('analyzed') and 
+        'results' in st.session_state):
+        
         results = st.session_state.get('results', {})
         if results:
             disease = results.get('class', '')
@@ -1409,7 +1451,7 @@ def show_detection_page(model):
                         create_probability_chart(results['all_probabilities']),
                         use_container_width=True,
                         config={'displayModeBar': False},
-                        key="probability_chart"
+                        key="probability_chart_main"
                     )
                 
                 if disease_info:
@@ -1450,7 +1492,7 @@ def show_detection_page(model):
                         st.markdown(f"""
                         <div class="history-card" style="padding: 1rem; margin-bottom: 0.7rem;">
                             <div style="display: flex; align-items: start;">
-                                <div style="margin-right: 0.7rem; color: #ff4444; font-size: 1.2rem;"></div>
+                                <div style="margin-right: 0.7rem; color: #ff4444; font-size: 1.2rem;">•</div>
                                 <div style="font-size: 0.98rem; color: #444;">{symptom}</div>
                             </div>
                         </div>
@@ -1461,11 +1503,22 @@ def show_detection_page(model):
                         st.markdown(f"""
                         <div class="history-card" style="padding: 1rem; margin-bottom: 0.7rem; border-left-color: #4CAF50;">
                             <div style="display: flex; align-items: start;">
-                                <div style="margin-right: 0.7rem; color: #4CAF50; font-size: 1.2rem;"></div>
+                                <div style="margin-right: 0.7rem; color: #4CAF50; font-size: 1.2rem;">•</div>
                                 <div style="font-size: 0.98rem; color: #444;">{treatment}</div>
                             </div>
                         </div>
                         """, unsafe_allow_html=True)
+            
+            # Tombol untuk clear analysis
+            st.markdown("---")
+            col_reset1, col_reset2, col_reset3 = st.columns([1, 2, 1])
+            with col_reset2:
+                if st.button("Clear Current Analysis", key="clear_current", use_container_width=True):
+                    st.session_state['analyzed'] = False
+                    st.session_state['results'] = {}
+                    st.session_state['image_source'] = None
+                    st.session_state['current_image'] = None
+                    st.rerun()  # Butuh rerun untuk reset tampilan
             
             st.markdown('</div>', unsafe_allow_html=True)
 
