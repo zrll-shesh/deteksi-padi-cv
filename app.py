@@ -76,12 +76,19 @@ st.markdown("""
         background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><path fill="rgba(255,255,255,0.1)" d="M0,50 Q250,100 500,50 T1000,50 V100 H0 Z"/></svg>');
         background-size: cover;
         opacity: 0.2;
-        z-index: 0;
+        z-index: -1;
     }
-    .hero-section > * {
+    
+    .hero-section {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .hero-section * {
         position: relative;
         z-index: 2;
     }
+
     .hero-title {
         font-size: 4rem;
         font-weight: 900;
