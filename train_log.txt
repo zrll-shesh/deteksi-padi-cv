@@ -1,0 +1,113 @@
+
+============================================================
+AgroSight - Rice Disease Detection Training Pipeline
+============================================================
+
+Loading dataset...
+
+=== Dataset Statistics ===
+Bacterialblight: 401 images
+Brownspot: 405 images
+Leafsmut: 365 images
+Total images: 1171
+Saved dataset distribution plot to results\dataset_distribution.png
+Saved sample images to results\sample_images.png
+
+Dataset split:
+Training: 819 images
+Validation: 176 images
+Testing: 176 images
+
+Initializing ResNet-34 model...
+
+Starting training for 12 epochs...
+============================================================
+Epoch [1/12] (181.45s)
+  Train Loss: 0.6574, Train Acc: 0.7350
+  Val Loss: 0.5530, Val Acc: 0.8693
+  >>> New best model saved! (Val Acc: 0.8693)
+------------------------------------------------------------
+Epoch [2/12] (170.82s)
+  Train Loss: 0.2959, Train Acc: 0.8938
+  Val Loss: 0.3408, Val Acc: 0.8864
+  >>> New best model saved! (Val Acc: 0.8864)
+------------------------------------------------------------
+Epoch [3/12] (268.40s)
+  Train Loss: 0.2796, Train Acc: 0.8938
+  Val Loss: 0.2126, Val Acc: 0.9205
+  >>> New best model saved! (Val Acc: 0.9205)
+------------------------------------------------------------
+Epoch [4/12] (172.00s)
+  Train Loss: 0.2754, Train Acc: 0.9011
+  Val Loss: 0.1287, Val Acc: 0.9432
+  >>> New best model saved! (Val Acc: 0.9432)
+------------------------------------------------------------
+Epoch [5/12] (170.66s)
+  Train Loss: 0.2624, Train Acc: 0.8987
+  Val Loss: 0.1623, Val Acc: 0.9545
+  >>> New best model saved! (Val Acc: 0.9545)
+------------------------------------------------------------
+Epoch [6/12] (165.45s)
+  Train Loss: 0.2214, Train Acc: 0.9267
+  Val Loss: 0.2028, Val Acc: 0.9375
+------------------------------------------------------------
+Epoch [7/12] (165.69s)
+  Train Loss: 0.2014, Train Acc: 0.9255
+  Val Loss: 0.0948, Val Acc: 0.9773
+  >>> New best model saved! (Val Acc: 0.9773)
+------------------------------------------------------------
+Epoch [8/12] (163.79s)
+  Train Loss: 0.1936, Train Acc: 0.9341
+  Val Loss: 0.1517, Val Acc: 0.9489
+------------------------------------------------------------
+Epoch [9/12] (167.51s)
+  Train Loss: 0.2187, Train Acc: 0.9206
+  Val Loss: 0.1588, Val Acc: 0.9432
+------------------------------------------------------------
+Epoch [10/12] (217.66s)
+  Train Loss: 0.2123, Train Acc: 0.9219
+  Val Loss: 0.0779, Val Acc: 0.9716
+------------------------------------------------------------
+Epoch [11/12] (165.34s)
+  Train Loss: 0.1908, Train Acc: 0.9341
+  Val Loss: 0.0683, Val Acc: 0.9773
+------------------------------------------------------------
+Epoch [12/12] (165.98s)
+  Train Loss: 0.1640, Train Acc: 0.9438
+  Val Loss: 0.0835, Val Acc: 0.9773
+------------------------------------------------------------
+Saved training history plot to results\training_history.png
+
+Loading best model for final evaluation...
+
+Evaluating on test set...
+
+Test Results:
+Test Loss: 0.0664
+Test Accuracy: 0.9659
+
+Generating evaluation visualizations...
+Saved confusion matrix to results\confusion_matrix.png
+Saved normalized confusion matrix to results\confusion_matrix_normalized.png
+Saved class performance plot to results\class_performance.png
+Saved ROC curves to results\roc_curves.png
+
+============================================================
+Classification Report:
+============================================================
+                 precision    recall  f1-score   support
+
+Bacterialblight     0.9831    0.9667    0.9748        60
+      Brownspot     0.9524    0.9836    0.9677        61
+       Leafsmut     0.9630    0.9455    0.9541        55
+
+       accuracy                         0.9659       176
+      macro avg     0.9661    0.9652    0.9656       176
+   weighted avg     0.9661    0.9659    0.9659       176
+
+
+============================================================
+Training completed successfully!
+Best model saved to: models/best_model.pth
+Results saved to: results/
+============================================================

@@ -1,0 +1,37 @@
+{
+    "test_accuracy": 0.9659090909090909,
+    "test_loss": 0.06639043889431791,
+    "classification_report": {
+        "Bacterialblight": {
+            "precision": 0.9830508474576272,
+            "recall": 0.9666666666666667,
+            "f1-score": 0.9747899159663865,
+            "support": 60.0
+        },
+        "Brownspot": {
+            "precision": 0.9523809523809523,
+            "recall": 0.9836065573770492,
+            "f1-score": 0.967741935483871,
+            "support": 61.0
+        },
+        "Leafsmut": {
+            "precision": 0.9629629629629629,
+            "recall": 0.9454545454545454,
+            "f1-score": 0.9541284403669725,
+            "support": 55.0
+        },
+        "accuracy": 0.9659090909090909,
+        "macro avg": {
+            "precision": 0.9661315876005142,
+            "recall": 0.9652425898327537,
+            "f1-score": 0.9655534306057434,
+            "support": 176.0
+        },
+        "weighted avg": {
+            "precision": 0.9661434767366971,
+            "recall": 0.9659090909090909,
+            "f1-score": 0.9658904388788795,
+            "support": 176.0
+        }
+    }
+}
