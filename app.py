@@ -76,7 +76,7 @@ st.markdown("""
         background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><path fill="rgba(255,255,255,0.1)" d="M0,50 Q250,100 500,50 T1000,50 V100 H0 Z"/></svg>');
         background-size: cover;
         opacity: 0.2;
-        z-index: -1;
+        z-index: 0;
     }
     
     .hero-section {
@@ -84,7 +84,7 @@ st.markdown("""
         z-index: 1;
     }
     
-    .hero-section * {
+    .hero-content {
         position: relative;
         z-index: 2;
     }
@@ -1139,18 +1139,19 @@ def create_disease_severity_chart():
 
 # ==================== MAIN APP ====================
 def main():
-    # Hero Section
     st.markdown("""
     <div class="hero-section">
-        <h1 class="hero-title">🌾 AgroSight</h1>
-        <p class="hero-subtitle">Advanced AI-Powered Rice Disease Detection System</p>
-        <p class="hero-tagline">
-            Empower your agricultural decisions with cutting-edge deep learning technology. 
-            Detect, analyze, and manage rice leaf diseases with precision and confidence.
-        </p>
+        <div class="hero-content">
+            <h1 class="hero-title">🌾 AgroSight</h1>
+            <p class="hero-subtitle">Advanced AI-Powered Rice Disease Detection System</p>
+            <p class="hero-tagline">
+                Empower your agricultural decisions with cutting-edge deep learning technology. 
+                Detect, analyze, and manage rice leaf diseases with precision and confidence.
+            </p>
+        </div>
     </div>
     """, unsafe_allow_html=True)
-    
+
     # Load model
     with st.spinner("Loading AI model..."):
         model = load_model()
