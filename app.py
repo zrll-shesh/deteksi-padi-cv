@@ -53,9 +53,9 @@ st.markdown("""
     /* Hero Section */
     .hero-section {
         background: linear-gradient(135deg, 
-            rgba(26, 188, 156, 0.95) 0%, 
-            rgba(22, 160, 133, 0.95) 30%,
-            rgba(19, 141, 117, 0.95) 100%);
+            #f8fff8 0%,
+            #e8f5e9 30%,
+            #d0e8d0 100%);
         padding: 4rem 2rem;
         border-radius: 0 0 40px 40px;
         box-shadow: 0 25px 70px rgba(0,0,0,0.3);
