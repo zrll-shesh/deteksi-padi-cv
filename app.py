@@ -53,9 +53,9 @@ st.markdown("""
     /* Hero Section */
     .hero-section {
         background: linear-gradient(135deg, 
-            #f8fff8 0%,
-            #e8f5e9 30%,
-            #d0e8d0 100%);
+            rgba(26, 188, 156, 0.95) 0%,
+            rgba(22, 160, 133, 0.95) 30%,
+            rgba(19, 141, 117, 0.95) 100%);
         padding: 4rem 2rem;
         border-radius: 0 0 40px 40px;
         box-shadow: 0 25px 70px rgba(0,0,0,0.3);
@@ -81,13 +81,11 @@ st.markdown("""
     .hero-title {
         font-size: 4rem;
         font-weight: 900;
-        color: white;
         text-shadow: 
-            4px 4px 10px rgba(0,0,0,0.3),
-            0 0 20px rgba(255,255,255,0.2);
+            2px 2px 8px rgba(0,0,0,0.1); /* Bayangan lebih halus */
         margin-bottom: 1rem;
         letter-spacing: 3px;
-        background: linear-gradient(45deg, #ffffff 10%, #f0fff0 90%);
+        background: linear-gradient(45deg, #1b5e20 10%, #388e3c 50%, #4caf50 90%)
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
