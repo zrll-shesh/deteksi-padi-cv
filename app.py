@@ -910,28 +910,23 @@ def preprocess_image(image):
     return transform(image).unsqueeze(0)
 
 # ==================== CAMERA FUNCTIONS ====================
+
 def capture_from_camera():
-    """Capture image from webcam"""
+    """Capture image from webcam using Streamlit camera_input"""
     try:
-        cap = cv2.VideoCapture(0)
-        
-        if not cap.isOpened():
-            st.error("Cannot access camera. Please check your camera permissions and connections.")
-            return None
-        
-        # Set camera resolution
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-        
-        ret, frame = cap.read()
-        cap.release()
-        
-        if ret and frame is not None:
-            # Convert BGR to RGB
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            return Image.fromarray(frame_rgb)
+        img_file = st.camera_input("Take a picture")  # Browser-friendly
+
+        if img_file is not None:
+            # Convert uploaded image to PIL Image
+            image = Image.open(img_file)
+
+            # Opsional: Convert ke OpenCV BGR
+            image_np = np.array(image)
+            image_bgr = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
+
+            return image  # Bisa return PIL Image atau image_bgr jika butuh OpenCV
         else:
-            st.error("Failed to capture image from camera.")
+            st.info("No image captured yet.")
             return None
     except Exception as e:
         st.error(f"Camera error: {str(e)}")
