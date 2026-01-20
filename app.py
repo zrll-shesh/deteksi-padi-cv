@@ -2013,9 +2013,7 @@ def show_about_page():
         revolutionizing crop disease management and contributing to food sustainability worldwide.
         
         ### Development Team
-        This innovative platform is developed by a multidisciplinary team of AI researchers, 
-        agricultural scientists, and software engineers dedicated to bridging the gap between 
-        advanced technology and practical agricultural needs.
+        This innovative platform is developed by Nazril Ravi Pratama and Nadia Kaila
         """)
         
         st.markdown("---")
