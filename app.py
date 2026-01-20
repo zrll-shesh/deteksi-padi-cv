@@ -914,20 +914,21 @@ def preprocess_image(image):
 def capture_from_camera():
     """Capture image from webcam using Streamlit camera_input"""
     try:
-        img_file = st.camera_input("Take a picture")  # Browser-friendly
+        # Browser-friendly camera capture
+        img_file = st.camera_input("Take a picture")
 
         if img_file is not None:
             # Convert uploaded image to PIL Image
             image = Image.open(img_file)
 
-            # Opsional: Convert ke OpenCV BGR
+            # Opsional: Convert ke OpenCV BGR jika butuh pemrosesan lebih lanjut
             image_np = np.array(image)
             image_bgr = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
 
-            return image  # Bisa return PIL Image atau image_bgr jika butuh OpenCV
+            st.success("Image captured successfully!")  # Pesan sukses
+            return image  # Bisa return PIL Image atau image_bgr
         else:
-            # Jangan langsung error, cukup info aja
-            st.info("Please take a picture using the camera above.")
+            # Jangan tampilkan error, cukup diam menunggu input user
             return None
     except Exception as e:
         st.error(f"Camera error: {str(e)}")
