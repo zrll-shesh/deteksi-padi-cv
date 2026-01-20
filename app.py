@@ -926,7 +926,8 @@ def capture_from_camera():
 
             return image  # Bisa return PIL Image atau image_bgr jika butuh OpenCV
         else:
-            st.info("No image captured yet.")
+            # Jangan langsung error, cukup info aja
+            st.info("Please take a picture using the camera above.")
             return None
     except Exception as e:
         st.error(f"Camera error: {str(e)}")
